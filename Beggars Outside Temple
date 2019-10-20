@@ -1,0 +1,28 @@
+//this is technique lazy propogation 
+//what we are doing is in a given range i to j we are adding the amount only to ith value everytime
+//and decreasing j+1 value everytime
+
+//initially the array is filled with zeros 
+//and we take the whole sum we got the answer to a particular beggar
+
+vector<int> Solution::solve(int A, vector<vector<int> > &B) {
+vector<int> ans(A);
+int low,high,val,k=0;
+for(int i=0;i<B.size();i++){
+    low=B[i][k];
+    high=B[i][k+1];
+    val=B[i][k+2];
+    ans[low-1]+=val;
+   if(high-1!=A-1){
+       ans[high]-=val;
+   }
+}
+ for(int i=1;i<A;i++) 
+{
+ans[i]+=ans[i-1];  
+}  
+return ans;
+}
+
+
+
