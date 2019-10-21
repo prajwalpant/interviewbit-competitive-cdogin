@@ -1,0 +1,19 @@
+//open the modulus there will be 4 equations 
+//out of thjose 4 two are same
+//now you have to maximise the value so in a single eqn you have to maximiise one part
+//and minimise other part to be it maximum
+//do the same for the second eqn also
+//and then find the maximum amongs them
+
+int Solution::maxArr(vector<int> &A) 
+{
+   int max1=INT_MIN,min1=INT_MAX,max2=INT_MIN,min2=INT_MAX;
+    for(int i=0;i<A.size();i++)
+    {
+        max1=max(max1,(A[i]+(i+1)));
+        min1=min(min1,A[i]+i+1);
+        max2=max(max2,A[i]-(i+1));
+        min2=min(min2,A[i]-(i+1));
+    }
+return max(max1-min1,max2-min2);
+}
