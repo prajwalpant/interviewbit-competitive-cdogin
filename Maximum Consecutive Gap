@@ -1,0 +1,25 @@
+//sort the vector and just give a loop and find the max among the 
+//succesive elemnts
+
+int Solution::maximumGap(const vector<int> &A) {
+    if(A.size()<2){
+        return 0;
+    }
+    vector<int> myvector;
+    int max=-99999;
+    for(int i=0;i<A.size();i++){
+myvector.push_back(A[i]);
+}
+sort(myvector.begin(),myvector.end());
+int j=0;
+for(int i=0;i<myvector.size()-1;i++){
+    j=i+1;
+    if(myvector[j]-myvector[i]>max){
+        max=myvector[j]-myvector[i];
+    }
+    
+}
+return max;
+
+
+}
