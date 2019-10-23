@@ -1,0 +1,22 @@
+/* Computes the diameter of binary tree with given root.  */
+//return the height at every node and just find the maximum
+//of all leftheight+rightheight+1 at every node
+//just take a variable and update the maximum
+int dfs(Node *node,int &ans)
+{
+    if(node==NULL)
+    {
+        return  0;
+    }
+    int left=dfs(node->left,ans);
+    int right=dfs(node->right,ans);
+    ans=max(ans,left+right+1);
+    return max(left,right)+1;
+}
+int diameter(Node* node)
+{
+   // Your code here
+   int ans=INT_MIN;
+    dfs(node,ans);
+    return ans;
+}
