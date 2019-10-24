@@ -1,0 +1,35 @@
+//logic is to check everytime last two and iterate towards zeroth index
+//if you find A[i-1]<A[i] at anyplace break at that point
+//now you can swap A[i] and A[i-1] but not now this can also be possible
+//there is some value after A[i] i.e towards right which is less than A[i] but greater than A[i-1]
+//if you find that value swap with that in the array and the after swapping sort the array exact after your new A[i].
+void Solution::nextPermutation(vector<int> &A) 
+{
+int i=0 ,j=0;
+for(i=A.size()-1;i>=0;i--){
+  if(A[i-1]<A[i])
+  {
+      break;
+  }
+}
+ if(i==0){
+      sort(A.begin(),A.end());
+      return ;
+  }
+  int save=i-1;
+  int no=A[save];
+  int min=A[save+1];
+  int save2=save+1;
+  for(int j=save+1;j<A.size();j++)
+  {
+     if(min>A[j]&& A[j]>no)
+     {
+         min=A[j];
+         save2=j;
+     } 
+}
+int temp=A[save];
+A[save]=A[save2];
+A[save2]=temp;
+sort(A.begin()+save+1,A.end());
+}
