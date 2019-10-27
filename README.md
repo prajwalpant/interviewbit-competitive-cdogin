@@ -1,1 +1,1 @@
-# interviewbit-competitive-cdogin
+# interviewbit-competitive-coding
