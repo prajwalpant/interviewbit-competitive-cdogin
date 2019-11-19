@@ -1,0 +1,80 @@
+/*
+You have a newspaper which has A lines to read. You decided to start reading the 1st line from Monday. You are given a schedule, B, where B[i] = number of lines you can read on that day. You are very strict in reading the newspaper and you will read as much as you can every day. Determine and return, which day of the week you will read the last line of the newspaper. Input Format:
+The first argument contains the single integer A — the number of lines in the newspaper.
+The second argument is an array B, of size 7 and those integers represent how many lines you can read on Monday, Tuesday, Wednesday, Thursday, Friday, Saturday and Sunday correspondingly.
+
+Note: It is guaranteed that at least one of the number in B[i] is larger than zero.
+Output Format:
+Return a single integer — the number of the day of the week, when you will finish reading the newspaper. 
+The days of the week are numbered starting with one in the order: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday.
+Constraints:
+1 <= A <= 1000
+1 <= B[i] <= 1000
+Examples
+Input 1:
+    A = 100  
+    B = [15, 20, 20, 15, 10, 30, 45]
+
+Output 1:
+    6
+
+Explanation 1:
+    By the end of Monday and therefore, by the beginning of Tuesday, you will have 85 lines left. You have 65 lines left by Wednesday, 45 by Thursday, 30 by Friday, 20 by Saturday and on Saturday, you will finish reading the newspaper.
+
+*/
+
+
+//just create a prefix sum and see for the conditions
+//if total lines are less than the toal of prefix array
+//if total lines are more then take the remainder and then find the remainder accordingly in the prefix array
+//if it is less then total then you can directly find from prefix array 
+
+int Solution::solve(int A, vector<int> &B) {
+ 
+ vector<int> sum(7);
+ int x=0;
+ for(int i=0;i<B.size();i++){
+     x+=B[i];
+     sum[i]=x;
+ }
+ bool chk=false;
+ int ans=0;
+ if(sum[B.size()-1]<A){
+    int save=A%sum[B.size()-1];
+    if(save==0)
+    {
+        for(int i=0;i<B.size();i++){
+            if(sum[i]==sum[B.size()-1]){
+                chk=true;
+                ans=i+1;
+                break;
+            }
+        }
+    }
+    else{
+        
+    for(int i=0;i<B.size();i++){
+        if(sum[i]>=save){
+            chk=true;
+            ans=i+1;
+            break;
+          }
+    }
+    }
+     
+ }
+ else{
+     
+      for(int i=0;i<B.size();i++){
+        if(sum[i]>=A){
+            chk=true;
+            ans=i+1;
+            break;
+        }
+    }
+     
+ }
+ return ans;
+    
+    
+}
