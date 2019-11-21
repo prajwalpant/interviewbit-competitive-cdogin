@@ -6,6 +6,8 @@ Output:[3, 4]
 
 A = 3, B = 4
 */
+// Make two equations one simple and one using square then solve the two equation and get the answer
+
 vector<int> Solution::repeatedNumber(const vector<int> &A) {
 long long  int st=0,stt=0,sa=0,saa=0;
 long long  int r,m,i;
