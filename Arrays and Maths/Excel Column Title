@@ -1,0 +1,31 @@
+string Solution::convertToTitle(int A) {
+map<int,char> mymap;
+ string str="";
+    int ascii=65,rem=0;
+    for(int i=1;i<=26;i++){
+        mymap[i]=char(ascii);
+        ascii++;
+     
+    }
+while(A>0)
+{
+   rem=A%26;
+   if(rem==0){
+     str+=mymap[26];
+     A=A/26;
+     A--;
+   }
+    else{
+        str+=mymap[rem];
+        A=A/26;
+    }
+    
+}
+  reverse(str.begin(),str.end());
+  return str;
+    }
+    
+
+
+
+
