@@ -1,0 +1,27 @@
+//just write numbers and observe the pattern.
+int Solution::solve(int A) 
+{
+  long int n=A;
+  long int i=10,j=1;
+  long int quot,rem;
+ long  int ans=0;
+    while(i<=n*10)
+    {
+        quot=n/i;
+        rem=n%i;
+        ans+=quot*j;
+        if(rem>=j && rem<=2*j-1){
+            ans+=(rem-j+1);
+        }
+       if(rem>2*j-1){
+           ans+=j;
+       }
+       i=i*10;
+       j=j*10;
+    
+ }
+  return (int)ans;
+}  
+
+
+
