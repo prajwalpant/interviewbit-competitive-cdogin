@@ -1,7 +1,7 @@
 //use modular arithmetic to solve this problem
 //(a%mod + b%mod)%mod=0
 //keep the count of remainder in a bucket array
-now iteratoe over that array
+//now iterate over that array
 #define mod 1000000007
 int Solution::solve(vector<int> &A, int B) {
 vector< long long > myvector(B,0);
