@@ -1,0 +1,22 @@
+/*Given an integer n, return the number of trailing zeroes in n!. Note: Your solution should be in logarithmic time complexity. Example :
+n = 5
+n! = 120 
+Number of trailing zeros = 1
+So, return 1
+*/
+
+// how to approach this question
+//one zero is formed by 5*2 so we have to find total 5*2 pairs in the factorial of n 
+//there are always more 5 than 2 in total 5*2 as 5 is every fith number and 2 comes in every second number
+//this question becomes very simple if you know how to find that how many time a number is a factor in a muliplication
+//suppose it is n! divide n continously with the number till it become zero and add the quotient
+//everytime and reduce the number to its quotient 
+int Solution::trailingZeroes(int A) {
+  int c=0; 
+    while(A!=0)
+    {
+        c+=A/5;
+        A=A/5;
+    }
+    return c;
+}
