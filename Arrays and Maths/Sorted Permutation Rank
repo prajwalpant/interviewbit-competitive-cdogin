@@ -1,0 +1,42 @@
+/*Given a string, find the rank of the string amongst its permutations sorted lexicographically. Assume that no characters are repeated. Example :
+Input : 'acb'
+Output : 2
+
+The order permutations with letters 'a', 'c', and 'b' : 
+abc
+acb
+bac
+bca
+cab
+cba
+The answer might not fit in an integer, so return your answer % 1000003
+*/
+map<int,int> mymap;
+int fact(int n)
+{
+mymap[0]=1;
+mymap[1]=1;
+if(mymap.find(n)!=mymap.end()){
+    return mymap[n];
+}
+if(n==1||n==0){
+    return mymap[n];
+}
+mymap[n]=(n*fact(n-1))%1000003;
+return mymap[n];
+}
+int Solution::findRank(string A) {
+
+int ans=1,cnt=0;
+int n=A.length()-1;
+for(int i=0;i<n;i++){
+    cnt=0;
+    for(int j=i+1;j<=n;j++){
+        if(A[i]>A[j]){
+            cnt++;
+        }
+    }
+    ans+=cnt*fact(n-i);
+}
+return ans%1000003;
+}
