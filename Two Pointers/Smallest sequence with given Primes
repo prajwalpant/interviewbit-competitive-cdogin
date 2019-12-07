@@ -1,0 +1,51 @@
+/*Given three prime number(p1, p2, p3) and an integer k. Find the first(smallest) k integers which have only p1, p2, p3 or a combination of them as their prime factors. Example: Input :
+Prime numbers : [2,3,5]
+k : 5 If primes are given as p1=2, p2=3 and p3=5 and k is given as 5, then the sequence of first 5 integers will be:
+ Output:
+{2,3,4,5,6} Explanation :
+4 = p1 * p1 ( 2 * 2 ) 6 = p1 * p2 ( 2 * 3 ) Note: The sequence should be sorted in ascending order
+*/
+//naive wahy is t use breadth first search and comute 
+//other way is you can use 3 pointers and first initialising three of them to 0th index
+//and thenmultiply with a,b,c and take the minimum out of them and then increment the pointer accordingly
+//increment the pointer which is making the minimum element
+
+vector<int> Solution::solve(int A, int B, int C, int D) 
+{
+vector<int> ans(D+1,0);
+int ptr=1;
+ans[0]=1;
+int p1=0,p2=0,p3=0;
+while(ptr<ans.size())
+{
+  int min1=A*ans[p1],min2=B*ans[p2],min3=C*ans[p3];
+ int temp_min=min(min1,min2);
+ int final_min=min(temp_min,min3);
+// cout<<min1<<" "<<min2<<" "<<min3<<" "<<final_min<<" "<<p1<<" "<<p2<<" "<<p3<<endl;
+int chk=false;
+if(ans[ptr-1]!=final_min)
+ {
+ ans[ptr]=final_min;
+ chk=true;
+ }
+ if((final_min==min1)&&(final_min==min2)&&(final_min==min3))
+    p1++;
+  else if((final_min==min1)&&(final_min==min2))
+   p1++;
+else if((final_min==min1)&&(final_min==min3))
+   p1++;
+  else if((final_min==min2)&&(final_min==min3))
+   p2++;
+   else if(final_min==min1)
+   p1++;
+   else if(final_min==min2)
+   p2++;
+   else p3++;
+   
+ if(chk)
+ ptr++;
+ 
+}
+ans.erase(ans.begin());
+return ans;
+}
