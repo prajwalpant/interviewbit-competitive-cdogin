@@ -1,0 +1,25 @@
+//use modular arithmetic to solve this problem
+//(a%mod + b%mod)%mod=0
+//keep the count of remainder in a bucket array
+now iteratoe over that array
+#define mod 1000000007
+int Solution::solve(vector<int> &A, int B) {
+vector< long long > myvector(B,0);
+for(long int i=0;i<A.size();i++)
+{
+  myvector[A[i]%B]++;
+}
+ long long ans=0;
+//as for remainder 0 we can select any two pairs
+ans+=(myvector[0]*(myvector[0]-1)/2);
+for(long int i=1;i<=B/2;i++){
+if(i!=B-i){
+    ans+=myvector[i]*myvector[B-i];
+}
+}
+//if it is even then we alsocan select nc from middle remainder
+if(B%2==0){
+    ans+=(myvector[B/2]*(myvector[B/2]-1)/2);
+}
+return (int)ans%mod;
+}
