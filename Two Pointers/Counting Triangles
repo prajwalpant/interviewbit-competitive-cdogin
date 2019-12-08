@@ -10,7 +10,8 @@ Return: 4
 //We know that for side lengths A, B and C where A < B < C, they form a triangle if they follow the triangle inequality i.e.
 //A+B>C
 //condition to form a triangle is any sum of two sides should be greater than the thid one
-//as we need three lines so this will work in O(n^2) as we are f 
+//as we need three lines so this will work in O(n^2)
+//fix a pointer to maximum length and other two pointers to start and the current max -1 and check the condition
 
 #define mod 1000000007
 int Solution::nTriang(vector<int> &A) {
