@@ -1,0 +1,42 @@
+/*You are given an array of N non-negative integers, A0, A1 ,..., AN-1. Considering each array element Ai as the edge length of some line segment, count the number of triangles which you can form using these array values. Notes:
+You can use any value only once while forming each triangle. Order of choosing the edge lengths doesn't matter. Any triangle formed should have a positive area.
+Return answer modulo 109 + 7.
+For example,
+A = [1, 1, 1, 2, 2]
+
+Return: 4
+*/
+
+//We know that for side lengths A, B and C where A < B < C, they form a triangle if they follow the triangle inequality i.e.
+//A+B>C
+//condition to form a triangle is any sum of two sides should be greater than the thid one
+//as we need three lines so this will work in O(n^2) as we are f 
+
+#define mod 1000000007
+int Solution::nTriang(vector<int> &A) {
+ sort(A.begin(),A.end());
+ long long n=A.size();
+ if(n==0){
+     return 0;
+ }
+ long long ans=0;
+ for(long long i=n-1;i>=1;i--)
+ {
+     long long left=0;
+     long long  right=i-1;
+     while(left<right)
+     {
+         long long x,y;
+         x=A[left]+A[right];
+         y=A[i];
+         if(x>y){
+             ans=(ans+(right%mod-left%mod))%mod;
+             right--;
+         }
+         else{
+             left++;
+         }
+    }
+ }
+   return (int)(ans+mod)%mod; 
+}
