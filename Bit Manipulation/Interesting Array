@@ -1,0 +1,43 @@
+/*Interesting Array
+You have an array A[] with N elements. We have 2 types of operation available on this array :
+We can split a element B into 2 elements C and D such that B = C + D.
+We can merge 2 elements P and Q as one element R such that R = P^Q i.e XOR of P and Q.
+You have to determine whether it is possible to make array A[] containing only 1 element 0 after several splits and/or merge? Input
+The first argument is an array of size N containing integer values Ai. 
+(1<=N<=100000) 
+(1<=Ai<=10^6) 
+Output
+Return "Yes" if it is possible otherwise return "No".
+Examples Input
+9 17
+Output
+Yes
+Explanation Testcase 1-
+Following is one possible sequence of operations -  
+1) Merge i.e 9 XOR 17 = 24  
+2) Split 24 into two parts each of size 12  
+3) Merge i.e 12 XOR 12 = 0  
+As there is only 1 element i.e 0. So it is possible.
+*/
+//to make whole array 0 you have to make all elements of this array same
+//so for even number you can easily divide every even number in two parts
+//and you know for odd numbers if two odd numbers forms a even number
+//and that even number can now again be divided in two parts
+//and xor of even and odd number is odd always even if you left with odd even number and odd odd numbers
+//then also you are not abe to make that number even
+//so just we have to find out that whether the odd numbers in array are even or not
+string Solution::solve(vector<int> &A)
+{
+int odd_count=0;
+int even_count=0;
+for(int i=0;i<A.size();i++)
+{
+    if(A[i]%2==0)
+    even_count++;
+    else
+    odd_count++;
+} 
+if(odd_count%2==0)
+return "Yes";
+else return "No";
+}
