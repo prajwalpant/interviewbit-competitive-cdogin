@@ -1,0 +1,44 @@
+/*
+Given an array of integers A, find and return the maximum result of A[i] XOR A[j], where i, j are the indexes of the array. 
+Input Format
+The only argument given is the integer array A.
+Output Format
+Return the maximum result of A[i] XOR A[j].
+Constraints
+1 <= length of the array <= 100000
+0 <= A[i] <= 10^9 
+For Example
+Input 1:
+    A = [1, 2, 3, 4, 5]
+Output 1:
+    7
+
+Input 2:
+    A = [5, 17, 100, 11]
+Output 2:
+    117
+*/
+
+//very smart approach
+//I follow the solution on Leetcode discuss
+//   https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/discuss/91049/java-on-solution-using-bit-manipulation-and-hashmap
+int Solution::solve(vector<int> &nums)
+{
+ int mask = 0, max = 0;
+        for (int i = 31; i >= 0; i--) {
+            mask |= (1 << i);
+            set<int>  prefixes;
+            for (int n : nums) {
+                prefixes.insert(mask & n);
+            }
+            int tmp = max | (1 << i);
+            for (int pre : prefixes) {
+                if (prefixes.find(tmp ^ pre)!=prefixes.end()) {
+                    max = tmp;
+                    break;
+                }
+            }
+        }
+        return max;    
+}
+
