@@ -42,3 +42,79 @@ int Solution::solve(vector<int> &nums)
         return max;    
 }
 
+
+
+
+
+
+
+
+//trie based approach but gives memory limit exceeded in interviewbit works fine in leetcode
+/*struct TrieNode
+{
+unordered_map<bool,TrieNode*> children;
+int number;
+};
+void construct_trie(TrieNode* root,int number)
+{
+    TrieNode* temp;
+    temp=root;
+    bool save;
+    for(int i=31;i>=0;i--)
+    {
+        save=(number&(1<<i));
+        if(temp->children.find(save)==temp->children.end())
+        {
+            TrieNode* newnode=new TrieNode;
+            temp->children[save]=newnode;
+        }
+         temp=temp->children[save];
+    }
+    temp->number=number;
+}
+long long return_max_xor(TrieNode* root,int number)
+{
+    TrieNode* temp;
+    temp=root;
+    bool complimentof;
+    for(int i=31;i>=0;i--)
+    {
+    complimentof=(number&(1<<i));
+    if(temp->children.find(!complimentof)!=temp->children.end())
+    {
+     temp=temp->children[!complimentof];
+    }
+    else 
+    {
+        temp=temp->children[complimentof];
+    }
+ }
+    return (long long)(number^(temp->number));
+}
+int Solution::solve(vector<int> &A) 
+{
+TrieNode* root=new TrieNode;
+for(int i=0;i<A.size();i++)
+{
+    construct_trie(root,A[i]);
+}
+long long max_xor=INT_MIN;
+for(int i=0;i<A.size();i++)
+{
+max_xor=max(max_xor,return_max_xor(root,A[i]));
+}
+return (int)max_xor;  
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
