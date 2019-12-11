@@ -1,0 +1,47 @@
+/*
+We define f(X, Y) as number of different corresponding bits in binary representation of X and Y. For example, f(2, 7) = 2, since binary representation of 2 and 7 are 010 and 111, respectively. The first and the third bit differ, so f(2, 7) = 2.
+
+You are given an array of N positive integers, A1, A2 ,…, AN. Find sum of f(Ai, Aj) for all pairs (i, j) such that 1 ≤ i, j ≤ N. Return the answer modulo 109+7.
+
+For example,
+
+A=[1, 3, 5]
+
+We return
+
+f(1, 1) + f(1, 3) + f(1, 5) + 
+f(3, 1) + f(3, 3) + f(3, 5) +
+f(5, 1) + f(5, 3) + f(5, 5) =
+
+0 + 1 + 1 +
+1 + 0 + 2 +
+1 + 2 + 0 = 8
+*/
+
+#define mod 1000000007
+//just taking each bit of all numbers in the array and counting number of ones and number of zeroes
+//for a particular bit multiply cont of zero and count of one it will give the total no of pairs which have different bit
+//for a particular bit
+//we have multiplied it with two because we are counting a pair two times ie both ways
+int Solution::cntBits(vector<int> &A) 
+{
+  int ans=0;
+  for(int i=31;i>=0;i--)
+  {
+      int count_zero=0;
+      int count_one=0;
+      for(int j=0;j<A.size();j++)
+      {
+        if((A[j]&(1<<i))>0)
+        {
+            count_one++;
+        }
+      }
+      count_zero=A.size()-count_one;
+      ans+=((((long long)count_zero%mod*(long long)count_one%mod)%mod)*(2%mod))%mod;
+      ans%=mod;
+  }
+  return ans%mod;
+}
+
+
