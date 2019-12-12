@@ -1,0 +1,51 @@
+/*
+Maximum height of the staircase
+Given an integer A representing the square blocks. The height of each square block is 1. The task is to create a staircase of max height using these blocks. The first stair would require only one block, the second stair would require two blocks and so on. Find and return the maximum height of the staircase. 
+Input Format
+The only argument given is integer A.
+Output Format
+Return the maximum height of the staircase using these blocks.
+Constraints
+0 <= A <= 10^9
+For Example
+Input 1:
+    A = 10
+Output 1:
+    4
+
+Input 2:
+    A = 20
+Output 2:
+    5
+*/
+//usw binary search on search space and use n*(n+1)/2
+int __binarysearch(long long low,long long high,long long number)
+{
+    long long int mid;
+   while(low<=high)
+   {
+       mid=low+(high-low)/2;
+      
+       if(mid*(mid+1)/2<=number && (mid+1)*(mid+2)/2>number)
+       {
+           return (int)mid;
+         }
+        else{
+             
+           if(mid*(mid+1)/2<number)
+           {
+               low=mid+1;
+           }  
+           else
+           {
+               high=mid-1;
+           }
+      }
+       
+       
+   } 
+
+}
+int Solution::solve(int A) {
+return __binarysearch(0,A,A);
+}
