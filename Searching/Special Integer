@@ -1,0 +1,113 @@
+/*
+Given an array of integers A and an integer B, find and return the maximum value K such that there is no subarray in A of size K with sum of elements greater than B. 
+Input Format
+The first argument given is the integer array A.
+The second argument given is integer B.
+Output Format
+Return the maximum value of K (sub array length).
+Constraints
+1 <= length of the array <= 100000
+1 <= A[i] <= 10^9
+1 <= B <= 10^9
+For Example
+Input 1:
+    A = [1, 2, 3, 4, 5]
+    B = 10
+Output 1:
+    2
+
+Input 2:
+    A = [5, 17, 100, 11]
+    B = 130
+Output 2:
+    3
+*/
+
+
+
+int b_s(int low, int high,long long int key,vector<long long int> &A)
+{
+  int mid,n;
+   n=A.size()-1;
+    while(low<=high)
+  {
+    mid=low+(high-low)/2;
+    if(A[mid]==key)
+    {
+        if(mid+1<=n)
+        {
+       while((long long int)A[mid]==(long long int)A[mid+1])
+       {
+           mid++;
+       }
+        }
+       return mid;
+    }
+    else{
+      if(key>(long long int)A[mid])
+      {
+        low=mid+1;  
+      }
+      else{
+          high=mid-1;
+      }
+ }
+}    
+    return high;
+}
+int Solution::solve(vector<int> &X, int B)
+{
+    vector<long long int> A(X.size());
+    long long int h=0;
+for(int i=0;i<X.size();i++)
+{
+    h+=(long long int)X[i];
+    //cout<<h<<" ";
+    A[i]=h;
+}
+
+int window_size=b_s(0,A.size()-1,B,A)+1;
+//cout<<window_size<<"ss";
+if(window_size==0)
+{
+    return 0;
+}
+else
+{
+  
+   long long int sum=0;
+   bool chk=false;
+   while(window_size)
+    {
+      //  cout<<"1";
+        int i=0;
+        int j=window_size-1;
+     while(j<A.size())
+        {
+            if(i==0){
+               sum=(long long int)A[j];
+            }
+          else{
+             sum=(long long int)A[j]-(long long int)A[i-1]; 
+          }
+         
+         if(sum>(long long)B){
+             chk=true;
+             break;
+         } 
+          j++;
+          i++;
+        }
+         if(chk)
+        {
+         window_size--;
+         chk=false;
+        }
+        else
+        {//cout<<"yo";
+            return window_size;
+        }
+ }
+ return 0;
+}
+}
