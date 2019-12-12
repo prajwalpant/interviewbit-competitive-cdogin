@@ -1,0 +1,52 @@
+/*
+Median of Array
+There are two sorted arrays A and B of size m and n respectively. Find the median of the two sorted arrays ( The median of the array formed by merging both the arrays ). The overall run time complexity should be O(log (m+n)). Sample Input
+A : [1 4 5]
+B : [2 3]
+Sample Output
+3
+*/
+//https://www.youtube.com/watch?v=LPFhl65R7ww&t=662s
+double __binarysearch(const vector<int> &A,const vector<int>&B)
+{
+    if(A.size()>B.size())
+    {
+      return (__binarysearch(B,A));
+    }
+   int smallsizevector=A.size();
+   int largesizevector=B.size();
+   int total=smallsizevector+largesizevector;
+   int low=0;
+   int high=smallsizevector;
+   while(low<=high)
+   {
+    int midsmall=low+(high-low)/2;
+    int midlarge=(total+1)/2-midsmall;
+    int leftpartsmall=(midsmall==0)?INT_MIN:A[midsmall-1];
+    int rightpartsmall=(midsmall==smallsizevector)?INT_MAX:A[midsmall];
+    int leftpartlarge=(midlarge==0)?INT_MIN:B[midlarge-1];
+    int rightpartlarge=(midlarge==largesizevector)?INT_MAX:B[midlarge];
+   if(leftpartsmall<=rightpartlarge &&rightpartsmall>=leftpartlarge)
+   {
+     if(total%2==0)
+     {
+       return (double)(((double)max(leftpartlarge,leftpartsmall)+(double)min(rightpartlarge,rightpartsmall))/2);   
+     }
+      else
+      {
+         return (double)max(leftpartsmall,leftpartlarge); 
+    }
+} 
+else if(rightpartsmall>leftpartlarge)
+{
+    high=midsmall-1;
+}
+else{
+    low=midsmall+1;
+}
+}   
+}
+double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> &B)
+{
+     return __binarysearch(A,B);
+}
