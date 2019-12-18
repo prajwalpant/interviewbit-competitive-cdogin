@@ -1,0 +1,46 @@
+/*
+Given a collection of numbers that might contain duplicates, return all possible unique permutations. Example : [1,1,2] have the following unique permutations:
+[1,1,2]
+[1,2,1]
+[2,1,1]
+ NOTE : No 2 entries in the permutation sequence should be the same. Warning : DO NOT USE 
+ LIBRARY FUNCTION FOR GENERATING PERMUTATIONS. Example : next_permutations in C++ /
+ itertools.permutations in python. If you do, we will disqualify your submission retroactively and give you penalty points.
+*/
+
+//same as permutations just using a set which keeps only unique value
+//you can also do it without using extra space
+void swap(int &x,int &y)
+{
+    int temp=x;
+    x=y;
+    y=temp;
+}
+void backtrack(int j,vector<int> &A,vector<vector<int>>&ans)
+{
+    if(j>=A.size())
+    return;
+    if(j==A.size()-1)
+    {ans.push_back(A);
+    return;}
+     unordered_set<int> myset;
+    for(int i=j;i<A.size();i++)
+    {
+           if(myset.find(A[i])==myset.end())
+           {
+            myset.insert(A[i]);
+            swap(A[i],A[j]);
+            backtrack(j+1,A,ans);
+            swap(A[i],A[j]);
+             myset.insert(A[i]);
+           }
+     }
+    return;
+}
+vector<vector<int> > Solution::permute(vector<int> &A) 
+{
+ vector<vector<int>> ans;
+ int j=0;
+ backtrack(j,A,ans);
+ return ans;
+}
