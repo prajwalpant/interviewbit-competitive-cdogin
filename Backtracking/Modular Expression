@@ -1,0 +1,39 @@
+/*
+Implement pow(A, B) % C.
+
+In other words, given A, B and C,
+find (AB)%C.
+
+Input : A = 2, B = 3, C = 3
+Return : 2 
+2^3 % 3 = 8 % 3 = 2
+*/
+//just splitting the even and odd powers accordingly and doing recursive calls
+
+long long modulo(long long A,long long B,long long C,map<long long ,long long> &mymap)
+{
+if(B==0){
+        return (1%C+C)%C;
+    }
+if(mymap.find(B)!=mymap.end())
+{
+    return mymap[B];
+}
+else if(B%2==0)
+{
+    mymap[B]=((modulo(A,B/2,C,mymap)%C)*(modulo(A,B/2,C,mymap)%C))%C;
+    return mymap[B];
+}
+else{
+    long long  x=(A%C+C)%C;//this is to find the exact mod as works even with negative numbers
+    mymap[B]=(((((modulo(A,B/2,C,mymap)%C)*(modulo(A,B/2,C,mymap)%C))%C)%C)*(x%C)%C);
+    return mymap[B];
+}
+}
+int Solution::Mod(int A, int B, int C) 
+{
+ long long ans;
+map<long long,long long> mymap;
+ans=modulo(A,B,C,mymap);
+return (int)ans;
+}
