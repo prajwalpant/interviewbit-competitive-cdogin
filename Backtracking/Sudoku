@@ -1,0 +1,65 @@
+//backtracking on the whole 2d array nice concept you must learn this
+//just validate no row column and each  box and bactrack
+bool in_box(int row,int column,vector<vector<char>> &A,char value)
+{
+ for(int i=row;i<row+3;i++)
+ {
+ for(int j=column;j<column+3;j++)
+ {
+     if(A[i][j]==value)
+     return true;
+ }
+}
+return false;
+}
+bool is_present_anywhere(int row,int column,char value,vector<vector<char>> &A)
+{
+for(int i=0;i<9;i++)
+{
+  if(A[row][i]==value)
+   return true;
+}
+for(int i=0;i<9;i++)
+{
+  if(A[i][column]==value)
+  return true;
+}
+int new_row=row%3;
+int new_col=column%3;
+row=row-new_row;
+column=column-new_col;
+return in_box(row,column,A,value);
+}
+bool backtrack(int row,int column,vector<vector<char>> &A)
+{
+  if(column==A[0].size())
+  {
+   column=0;
+   row++;
+   if(row==A.size())
+   return true;
+  }
+  if(A[row][column]!='.')
+  return backtrack(row,column+1,A);
+  else
+  {
+   for(int i=1;i<=9;i++)
+  {
+    char value=(char)(i+'0');
+    if(is_present_anywhere(row,column,value,A)==false)
+    {
+       A[row][column]=value;
+       if(backtrack(row,column+1,A))
+       {
+           return true;
+       }
+     A[row][column]='.';
+    }
+  }
+  return false;
+  }
+}
+
+void Solution::solveSudoku(vector<vector<char> > &A) {
+   backtrack(0,0,A);
+}
