@@ -1,0 +1,92 @@
+/*
+NQueens
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other. N Queens: Example 1 Given an integer n, return all distinct solutions to the n-queens puzzle. Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively. For example, There exist two distinct solutions to the 4-queens puzzle:
+[
+ [".Q..",  // Solution 1
+  "...Q",
+  "Q...",
+  "..Q."],
+
+ ["..Q.",  // Solution 2
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+*/
+//do something
+//recurr on that
+//and undo that thing what u have that that is all about backtracking and n queens
+//try  putting queen in each cell where it fits
+//otherwise backtrack and sart recurring on some otheer position
+void push(vector<vector<string> > &ans ,int A,vector<vector<int>> chessboard)
+{
+   
+ vector<string> v;
+for(int i=0;i<A;i++){
+         string s="";
+       for(int j=0;j<A;j++){
+           if(chessboard[i][j]==0){
+               s+=".";
+           }
+           else{
+               s+="Q";
+           }
+       }
+       v.push_back(s);
+   }
+   ans.push_back(v);
+   return;
+}
+bool isSafe(vector<int> &checkcolumn,vector<int> &checksum,vector<int> &checkdiff,int row,int column)
+{
+    for(int i=0;i<checkcolumn.size();i++){
+        if(checkcolumn[i]==column||checkdiff[i]==row-column||checksum[i]==row+column){
+            return false;
+        }
+    }
+    return true;
+}
+void backtracking(vector<vector<string>> &ans,int row,int A,vector<vector<int>> chessboard,int &count,vector<int> &checkcolumn,vector<int> &checksum,vector<int> &checkdiff)
+{
+    if(count==A)
+    {
+          push(ans,A,chessboard);
+        return ;
+    }
+   if(row>A-1){
+      return ;  
+    }
+for(int column=0;column<A;column++){
+    
+if(isSafe(checkcolumn,checksum,checkdiff,row,column)){
+     count++;
+    checkcolumn.push_back(column);
+    checkdiff.push_back(row-column);
+    checksum.push_back(row+column);
+    chessboard[row][column]=1;
+    backtracking(ans,row+1,A,chessboard,count,checkcolumn,checksum,checkdiff);
+     count--;
+     chessboard[row][column]=0;
+     checkcolumn.pop_back();
+     checkdiff.pop_back();
+     checksum.pop_back();
+}
+}
+return ;
+}
+vector<vector<string> > Solution::solveNQueens(int A) 
+{
+vector<vector<string>> ans; 
+vector<int> checkcolumn;
+vector<int> checksum;
+vector<int> checkdiff;
+
+if(A==2||A==3){
+return ans;
+}
+vector<vector<int>>chessboard(A, vector<int>(A,0));
+int cn=0;
+backtracking(ans,0,A,chessboard,cn,checkcolumn,checksum,checkdiff); 
+return ans;
+}
+
