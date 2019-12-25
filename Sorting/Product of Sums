@@ -1,0 +1,61 @@
+/*
+Consider a 3-tuple of integers (A,B,C) under the constraints that A<=B and C<=B. A function on the tuple is defined as:
+F(A,B,C)=0 if A>B or C>B (or both).
+F(A,B,C)=(A+B)*(B+C) if A<=B and C<=B.
+Given 3 arrays of size P,Q,R respectively. Find the sum of all F(A,B,C) over all the 3-tuples (A,B,C) where A,B,C belong to the arrays P,Q,R respectively. Since the sum can be very large, find the sum modulo 10^9+7. Constraints:
+1.   1<=P,Q,R<=100000
+2.   1<= every array element <=10^9
+Input: 3 integers denoting the size of the 3 arrays and 3 arrays. Output: Sum of all F(A,B,C) over all the 3-tuples (A,B,C) where A,B,C belong to the arrays P,Q,R respectively modlulo 10^9+7 Example: Input:
+size of array1: 2
+size of array2: 2
+size of array3: 4
+array1:[1 2]
+array2:[4 4]
+array3:[2 3 4 5]
+Output:
+462
+*/
+/*For a particular B, we need to find the sum of all A’s and C’s less than B.
+That can be done efficiently using prefix sum arrays over first and third array.
+Now that value of B will be added as many times as the number of A’s and C’s less than B
+*/
+//just do trivial maths to find the sum efficiently
+#define mod 1000000007
+int Solution::getSum(int A, int B, int C, vector<int> &D, vector<int> &E, vector<int> &F)
+{   
+ sort(D.begin(),D.end());
+ sort(E.begin(),E.end());
+ sort(F.begin(),F.end());
+ long long int ans=0;
+ vector<long long int> sum_d;
+ vector<long long int> sum_f;
+ long long int sum=0;
+ for(int i=0;i<D.size();i++)
+ {
+     sum+=D[i];
+     sum%=mod;
+     sum_d.push_back(sum);
+ }
+ sum=0;
+ for(int i=0;i<F.size();i++)
+ {
+  sum+=F[i];
+  sum%=mod;
+  sum_f.push_back(sum);
+ }
+ 
+ for(int i=E.size()-1;i>=0;i--)
+ {
+     int bound_d=upper_bound(D.begin(),D.end(),E[i])-D.begin();
+     int bound_f=upper_bound(F.begin(),F.end(),E[i])-F.begin();
+     if(bound_d==0&&bound_f==0)
+     break;
+     if(bound_d ==0||bound_f==0 )
+     continue;
+     //cout<<bound_d<<" "<<bound_f<<" "<<E[i]<<" "<<sum_d[bound_d-1]<<" "<<sum_f[bound_f-1]<<" ";
+    ans+= ((((((long long)(bound_d%mod*E[i]%mod)%mod)%mod)%mod+sum_d[bound_d-1]%mod)%mod)%mod*((((long long)(bound_f%mod*E[i]%mod)%mod)%mod+sum_f[bound_f-1]%mod)%mod)%mod);
+    ans%=mod;
+ }
+ 
+ return (int)ans;
+}
