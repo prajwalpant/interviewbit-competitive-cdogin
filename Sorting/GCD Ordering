@@ -1,0 +1,158 @@
+/*
+Gcd Ordering
+Given an array of integers A, find and return the lexicographically greatest arrangement of A which follows the below rules:
+If the size of A is less than 3 it is always possible to rearrange A.
+A[i] = A[i-1] + GCD(A[i-1], A[i-2]) for all i > 2, where GCD(x, y) is greatest common factor of x and y.
+Return the lexicographically greatest arrangement of A which follows the above rules, if it is not possible to rearrange A according to the above rules return -1. Note: Lexicographically means in dictionary order, i.e. if two arrangemnets are compared based on dictionary position the arrangements which comes afterwards is said to be Lexicographically greater. 
+Input Format
+The only argument given is the integer array A.
+Output Format
+Return the lexicographically greatest arrangement of A  which follows the above rules, 
+if it is not possible to rearrange A according to the given rules return -1.
+Constraints
+1 <= length of the array <= 100000
+0 <= A[i] <= 10^5
+For Example
+Input 1:
+    A = [4, 6, 2, 5, 3]
+Output 1:
+     [2, 3, 4, 5, 6]
+
+Input 2:
+    A = [3, 8, 5]
+Output 2:
+    -1
+*/
+/*
+You would have guessed of a solution that would involve sorting of the 
+array and then checking if the gcd condition holds. You are partly right,
+the numbers have to be in increasing sequence but except for one case where 
+there could be a number that could appear at the start of the permutation. 
+For Example, in 2 4 6 8 8, you could have had 8 at the starting and have got the permutation 8 2 4 6 8.
+There were many corner cases to this
+Check for the corner cases. Few other things to note were -
+1) you couldn’t have more than two elements whose freq was more than 1.
+2) if you had two zeros in the array, the only possible permutation possible was all 0’s
+3) you had to use gcd of(0,x) = x wisely. Time Complexity - nlogn
+*/
+int gcd(int a,int b)
+{
+    if(a>b)
+        return gcd(b,a);
+    else if(a==0 && a==b)
+        return 0;
+    else if(a==0)
+        return b;
+    else
+        return __gcd(a,b);
+}
+
+vector<int> solvee(vector<int> &a){
+int n;
+  n=a.size();
+  vector<int> ans;
+  assert(n>=1&&n<=100000);
+  int i,flag,ps;
+        sort(a.begin(),a.end());
+        if (n<3){
+            for (i=n-1;i>=0;i--)
+                 ans.push_back(a[i]);
+            return ans;
+        }
+        else{
+            flag=0;
+            for (i=2;i<n;i++){
+                if(a[i]!=a[i-1]+gcd(a[i-1],a[i-2])){
+                    flag=1;
+                    ps=i;
+                    break;
+                }
+            }
+            if (flag==0)
+            {
+                if (a[1]==a[0]+gcd(a[0],a[n-1])){
+                    ans.push_back(a[n-1]);
+                    for(i=0;i<n-1;i++)
+                        ans.push_back(a[i]);
+                    return ans;
+                    }
+                else{
+                    for(i=0;i<n;i++)
+                        ans.push_back(a[i]);
+                    return ans;
+                    }
+                }
+            else{
+                if (a[1]==a[0]+gcd(a[ps],a[0])){
+                    flag=0;
+                    for(i=n-1;i>ps+2;i--){
+                        if(a[i]!=a[i-1]+gcd(a[i-1],a[i-2])){
+                           flag=1;
+                           break;
+                          }
+                        }
+                   if (flag==0 and ps<n-1){
+                       if (a[ps+1]!=a[ps-1]+gcd(a[ps-1],a[ps-2]))
+                           flag=1;
+                   }
+                   if (flag==0 and ps<n-2){
+                       if (a[ps+2]!=a[ps+1]+gcd(a[ps-1],a[ps+1]))
+                           flag=1;
+                   }
+                 if (flag==0){
+                     ans.push_back(a[ps]);
+                  for(i=0;i<n;i++)
+                      if(i!=ps)
+                     ans.push_back(a[i]);
+                  return ans;
+                 }
+                }
+              }
+          }
+        ans.push_back(-1);
+        return ans;
+}
+vector<int> Solution::solve(vector<int> &A) {
+    return solvee(A);
+}
+
+//note from the question that answer will be from a sorted array
+//this will also pass all cases in interviewbit but this is the incorrect soln as for this question
+//the test cases are very in in interviewbit
+//For Example, in 2 4 6 8 8, you could have had 8 at the starting and have got the permutation 8 2 4 6 8. will fails and gives the same
+//array as output but answer should be 8 2 4 6 8.
+/*vector<int> Solution::solve(vector<int> &A)
+
+{
+  sort(A.begin(), A.end());
+    if(A.size() > 2)
+    {
+        for(int i=2;i<A.size();i++)
+        {
+            if(A[i]!=A[i-1]+__gcd(A[i-1],A[i-2]))
+            {
+                vector<int> ans;
+                ans.push_back(-1);
+                return ans;
+            }
+        }
+        return A; 
+    }
+     else
+    {
+         if(A.size() == 2)
+       {
+           
+           if(A[0]>A[1])
+           return A;
+            else
+             swap(A[0], A[1]);
+              
+             return A;
+         }
+       else
+       {
+          return A;
+        }
+    }
+}*/
