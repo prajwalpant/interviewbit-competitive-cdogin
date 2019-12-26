@@ -1,0 +1,91 @@
+/*
+Given an array of integers A, find and return new integer array B. B array has the property where B[i] is the number of smaller elements to the right of A[i]. 
+Input Format
+The only argument given is the integer array A.
+Output Format
+Return the new integer array B.
+Constraints
+1 <= length of the array <= 100000
+1 <= A[i] <= 10^9 
+For Example
+Input 1:
+    A = [1, 5, 4, 2, 1]
+Output 1:
+    B = [0, 3, 2, 1, 0]
+
+Input 2:
+    A = [5, 17, 100, 11]
+Output 2:
+    B = [0, 1, 1, 0]
+*/
+
+//during merge sort count the elements.
+void __merge(vector<int> &A,vector<int> &idx,vector<int> &ans,int low,int mid,int high)
+{
+vector<int> left;
+vector<int> right;
+for(int i=low;i<=mid;i++)
+{
+     left.push_back(idx[i]);
+}
+ for(int i=mid+1;i<=high;i++)
+{
+     right.push_back(idx[i]);
+}
+int i=0,j=0,k=low,count=0;
+//cout<<"2";
+while(i<left.size()&&j<right.size())
+{
+   if(A[left[i]]<=A[right[j]])
+   {
+       idx[k++]=left[i];
+      ans[left[i]]+=count; 
+      i++;
+   //  cout<<"3";
+     }
+   else{
+    // cout<<"4";
+      count++;
+    //  cout<<count<<"  ";
+      idx[k++]=right[j];
+      j++;
+ }
+}
+while(i<left.size())
+{
+  //  cout<<"5";
+    idx[k++]=left[i];
+    ans[left[i]]+=count;
+    i++;
+}
+while(j<right.size())
+{
+//cout<<"6";
+    idx[k++]=right[j];
+     j++;
+}
+}
+void __mergesort(vector<int> &A,vector<int> &idx,vector<int> &ans,int low,int high)
+{
+ //   cout<<"1";
+  if(low<high)
+    {
+        int mid=low+(high-low)/2;
+        __mergesort(A,idx,ans,low,mid);
+        __mergesort(A,idx,ans,mid+1,high);
+        __merge(A,idx,ans,low,mid,high);
+          }
+    return ;
+}
+vector<int> Solution::solve(vector<int> &A) 
+{
+vector<int> idx;
+vector<int> ans(A.size());
+for(int i=0;i<A.size();i++)
+{
+  idx.push_back(i);
+}
+__mergesort(A,idx,ans,0,A.size()-1);
+return ans;
+}
+
