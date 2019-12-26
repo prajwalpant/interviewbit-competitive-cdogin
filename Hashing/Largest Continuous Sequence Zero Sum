@@ -1,0 +1,61 @@
+/*
+Largest Continuous Sequence Zero Sum
+Find the largest continuous sequence in a array which sums to zero. Example:
+Input:  {1 ,2 ,-2 ,4 ,-4}
+Output: {2 ,-2 ,4 ,-4}
+ NOTE : If there are multiple correct answers, return the sequence which occurs first in the array. 
+*/
+//intution is that if you create a prefix sum array then
+//for a subarray to be zero a particular sum will repeat at some index if the subarray is zero
+//consider for {1 ,2 ,-2 ,4 ,-4}
+//cum sum={1,3,1,5,1}
+//here one repeats twice it means there are two subarray which have zero sum
+//use hashing to store the pprevious sum and its index so that you can later check out the length
+
+vector<int> Solution::lszero(vector<int> &A) 
+{
+vector<long long int> prefix;
+unordered_map<long long int,long long int> mymap;
+long long int sum=0;
+prefix.push_back(sum);
+for(int i=0;i<A.size();i++)
+{
+ sum+=A[i];
+ prefix.push_back(sum);
+}
+long long int prev_length=0,length=0;
+long long int save1=0,save2=0;
+for(long long int i=0;i<prefix.size();i++)
+{
+  if(mymap.find(prefix[i])!=mymap.end())
+  {
+      length=i-mymap[prefix[i]];
+     // cout<<length<<"%%%";
+      if(length>prev_length){
+          save2=i;
+          save1=mymap[prefix[i]];
+          prev_length=length;
+      }
+  }
+  else
+  {
+      mymap[prefix[i]]=i;
+  }
+}
+
+//cout<<save1<<"**"<<save2<<"**";
+vector<int> ans;
+if(prev_length>0){
+for(int i=save1;i<save2;i++)
+{
+    ans.push_back(A[i]);
+}
+}
+
+return ans;
+
+}
+
+
+
+
