@@ -1,0 +1,90 @@
+/*
+Given an array of integers A. If i < j and A[i] > A[j] then the pair (i, j) is called an inversion of A. Find the total number of inversions of A modulo (10^9 + 7). 
+Input Format
+The only argument given is the integer array A.
+Output Format
+Return the number of inversions of A modulo (10^9 + 7).
+Constraints
+1 <= length of the array <= 100000
+1 <= A[i] <= 10^9 
+For Example
+Input 1:
+    A = [1, 2, 5, 4, 3]
+Output 1:
+    3
+
+Input 2:
+    A = [5, 17, 100, 11]
+Output 2:
+    1
+*/
+//just usng merge sort to find the answer
+//duirng the merge operation in merge sort you have to calculate for the answer
+#define mod 1000000007
+void __merge(vector<int> &A,int low,int mid,int high,long long int &count,long long int temp)
+{
+  vector<int>left;
+  vector<int> right;
+for(int i=low;i<=mid;i++)
+{
+left.push_back(A[i]); 
+}
+for(int i=mid+1;i<=high;i++)
+{
+right.push_back(A[i]);
+}
+int i=0,j=0,k=low;
+while(i<left.size()&&j<right.size())
+{
+   if(left[i]>right[j])
+   {
+     A[k++]=right[j++]; 
+        temp++;
+   }
+   else
+   {
+      count+=(temp*(long long)(left.size()-i));
+      count=count%mod;
+ //   cout<<count<<" ";
+      A[k++]=left[i++];
+       temp=0;
+  }
+}
+bool chk=false;
+int save;
+save=i;
+while(i<left.size())
+{
+ chk=true;
+ A[k++]=left[i++];
+}
+ if(chk)
+ {
+   count+=temp*(long long)(left.size()-save);
+   count=count%mod;
+ // cout<<count<<" ";
+ }
+
+while(j<right.size())
+{
+  A[k++]=right[j++];   
+}
+}
+void  __mergesort(vector<int> &A,int low,int high,long long int &count)
+{
+if(low<high)
+{
+    long long int temp=0;
+    int mid=low+(high-low)/2;
+  __mergesort(A,low,mid,count);
+  __mergesort(A,mid+1,high,count);
+  __merge(A,low,mid,high,count,temp);
+}    
+return ;  
+}
+int Solution::solve(vector<int> &A) 
+{
+long long int count=0;
+__mergesort(A,0,A.size()-1,count); 
+return (int)count%mod;
+}
