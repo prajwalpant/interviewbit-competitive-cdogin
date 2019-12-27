@@ -1,0 +1,140 @@
+//using a map inside a map to verify row columns and blocks
+int Solution::isValidSudoku(const vector<string> &A)
+{
+map<int,set<char>> row;
+map<int,set<char>> column;
+map<int,set<char>> block;
+for(int i=0;i<A.size();i++){
+    string s=A[i];
+  for(int j=0;j<A.size();j++)
+  {
+    if(s[j]!='.')
+     {
+        if(row[i].find(s[j])==row[i].end())
+        {
+            row[i].insert(s[j]);
+        }
+        else{
+            return 0;
+        }
+    //rows end
+ if(column[j].find(s[j])==column[j].end())
+     {
+    column[j].insert(s[j]);
+    }  
+    else{
+        return 0;
+    }
+        //columns end 
+         
+    //block starts
+//1    
+   if(i>=0 && i<=2 && j>=0 && j<=2)
+   {
+     if(block[1].find(s[j])==block[1].end())
+     {
+       block[1].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      } 
+ //2        
+       if(i>=0 && i<=2 && j>=3 && j<=5)
+   {
+     if(block[2].find(s[j])==block[2].end())
+     {
+       block[2].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      } 
+             
+  //3 
+     if(i>=0 && i<=2 && j>=6 && j<=8)
+   {
+     if(block[3].find(s[j])==block[3].end())
+     {
+       block[3].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      } 
+     //4   
+        if(i>=3 && i<=5 && j>=0 && j<=2)
+   {
+     if(block[4].find(s[j])==block[4].end())
+     {
+       block[4].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      }   
+   //5   
+      
+           if(i>=3 && i<=5 && j>=3 && j<=5)
+   {
+     if(block[5].find(s[j])==block[5].end())
+     {
+       block[5].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      }      
+         
+  //6
+  if(i>=3 && i<=5 && j>=6 && j<=8)
+   {
+     if(block[6].find(s[j])==block[6].end())
+     {
+       block[6].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      }  
+      //7
+         
+         if(i>=6 && i<=8&& j>=0 && j<=2)
+   {
+     if(block[7].find(s[j])==block[7].end())
+     {
+       block[7].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      }     
+         
+         if(i>=6 && i<=8&& j>=3 && j<=5)
+   {
+     if(block[8].find(s[j])==block[8].end())
+     {
+       block[8].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      }     
+         
+         if(i>=6 && i<=8 && j>=6 && j<=8)
+   {
+     if(block[9].find(s[j])==block[9].end())
+     {
+       block[9].insert(s[j]);
+     }
+      else{
+          return 0;
+      }
+      }     
+              
+     }     
+  }  
+    
+}  
+    return 1;
+}
