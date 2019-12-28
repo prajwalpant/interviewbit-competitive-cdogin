@@ -1,0 +1,70 @@
+/*
+Longest Subarray Sum B
+Given an array of integers A of size N and an integer B. Find the length of longest subarray having sum equal to B. If no such subarray exists then return -1. 
+Input Format
+The First argument given is the integer array A.
+The Second argument is an integer B.
+Output Format
+Return the length of longest subarray having sum equal to B if exists else return -1.
+Constraints
+1 <= N <= 100000
+-10^6 <= A[i] <= 10^6
+-10^9 <= B <= 10^9
+For Example
+Input 1:
+    A = [1, 2, 3, 4, 5]
+    B = 10
+
+Output 1:
+    4
+
+Input 2:
+    A = [1, -1, -1, 1]
+    B = 0
+Output 2:
+    4
+*/
+/*
+Initialize sum = 0 and maxLen = 0.
+Create a hash table having (sum, index) tuples.
+For i = 0 to N-1, perform the following steps:
+Accumulate A[i] to sum.
+If sum == B, update maxLen = i+1.
+Check whether sum is present in the hash table or not. If not present, then add it to the hash table as (sum, i) pair.
+Check if (sum-B) is present in the hash table or not. If present, then obtain index of (sum-B) from the hash table as index. Now check if maxLen < (i-index), then update maxLen = (i-index).
+Return maxLen.
+*/
+int Solution::solve(vector<int> &A, int B)
+{
+long int sum=0;
+int save_len=0;
+unordered_map<long int,int> mymap;
+for(int i=0;i<A.size();i++)
+{
+sum+=A[i];
+if(sum==B)
+{
+   save_len=i+1;
+ }
+ 
+ 
+ if(mymap.find(sum)==mymap.end())
+ {
+     mymap[sum]=i;
+ } 
+  
+ if(mymap.find(sum-B)!=mymap.end())
+  {
+     if(i-mymap[sum-B]>save_len) {
+         save_len=i-mymap[sum-B];
+     }
+  }
+}
+
+if(save_len==0){
+    return -1;
+}
+else{
+    return save_len;
+}
+}
