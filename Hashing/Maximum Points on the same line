@@ -1,0 +1,75 @@
+/*
+Maximum Points on the same line
+Given two array of integers A and B describing a pair of (A[i], B[i]) coordinates in 2-D plane. A[i] describe x coordinates of the ith point in 2D plane whereas B[i] describes the y-coordinate of the ith point in 2D plane. Find and return the maximum number of points which lie on the same line. 
+Input Format
+The arguments given are integer arrays A and B.
+Output Format
+Return the maximum number of points which lie on the same line.
+Constraints
+1 <= (length of the array A = length of array B) <= 1000
+-10^5 <= A[i], B[i] <= 10^5 
+For Example
+Input 1:
+    A = [-1, 0, 1, 2, 3, 3]
+    B = [1, 0, 1, 2, 3, 4]
+Output 1:
+    4
+    The maximum number of point which lie on same line are 4, those points are {0, 0}, {1, 1}, {2, 2}, {3, 3}
+
+Input 2:
+    A = [3, 1, 4, 5, 7, -9, -8, 6]
+    B = [4, -8, -3, -2, -1, 5, 7, -4]
+Output 2:
+    2
+*/
+/*
+1) if two point are (x1, y1) and (x2, y2) then their slope will be (y2 – y1) / (x2 – x1) 
+which can be a double value and can cause precision problems. To get rid of the precision problems,
+we treat slope as pair ((y2 – y1), (x2 – x1)) instead of ratio and reduce pair by their gcd before 
+inserting into map. In below code points which are vertical or repeated are treated separately. 2)
+If we use map in c++ or HashMap in Java for storing the slope pair, then total time complexity of solution will be O(n^2 logn)
+*/
+int gcd(int a, int b) 
+{ 
+    if (b==0) 
+     return a;
+    return gcd(b,a%b);  
+} 
+int Solution::solve(vector<int> &A, vector<int> &B) 
+{
+if(A.size()==0||B.size()==0)
+{
+    return 0;
+}
+int ans=INT_MIN;
+for(int i=0;i<A.size();i++)
+{
+int vertical=0,repeat=0,generalmax=0,result=0;
+unordered_map<double,int> mymap;
+  int  x1=A[i];
+   int y1=B[i];
+  for(int j=i+1;j<A.size();j++){
+      int  x2=A[j];
+      int y2=B[j];
+     if(x2==x1 &&y2==y1)
+         {
+            repeat++;
+         }
+         else if(x2==x1){
+             vertical++;
+         }
+       else{
+      int g=gcd(x2-x1,y2-y1);
+      double hash1=(y2-y1)/g;
+    double hash2=(x2-x1)/g;
+     mymap[hash1/hash2]++;
+      generalmax=max(mymap[hash1/hash2],generalmax);
+       }
+        
+   }
+   result=max(max(result,vertical+repeat+1),generalmax+repeat+1);
+   ans=max(ans,result);
+  mymap.clear();
+}
+return ans;
+}
