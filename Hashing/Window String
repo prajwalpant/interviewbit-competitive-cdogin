@@ -1,0 +1,70 @@
+/*
+Window String
+Given a string S and a string T, find the minimum window in S which will contain all the characters in T in linear time complexity. Note that when the count of a character C in T is N, then the count of C in minimum window in S should be at least N. Example :
+S = "ADOBECODEBANC"
+T = "ABC"
+Minimum window is "BANC"
+ Note:
+If there is no such window in S that covers all characters in T, return the empty string ''.
+If there are multiple such windows, return the first occurring minimum window ( with minimum start index ).
+
+*/
+//using two pointer+hashing
+//the main trick is first you have to find a right pointer 2
+string Solution::minWindow(string A, string B) 
+{
+int mini=INT_MAX;
+int mymap_a[128]={0};
+int mymap_b[128]={0};
+for(int i=0;i<B.size();i++)
+{ 
+ mymap_b[B[i]]++;
+}
+int j=0,i=0,save=0,count=0,chk=false,save1,save2;
+for(j=0;j<A.size();j++)
+{
+    
+if(mymap_b[A[j]]==0){
+    continue;
+    }
+//mymap[A[j]]=0;
+if(mymap_a[A[j]]<mymap_b[A[j]])
+{
+    count++;
+    if(count==B.length()){
+        chk=true;
+    }
+}
+mymap_a[A[j]]++;
+while(i<j)
+{
+    if(mymap_b[A[i]]==0)
+    {
+        i++;
+    }
+    else if(mymap_a[A[i]]>mymap_b[A[i]])
+    {
+        mymap_a[A[i]]--;
+        i++;
+    }
+    else {
+        break;
+    }
+    
+}
+
+ if (chk&&j-i+1<mini) 
+ {
+         mini=j-i+1;
+          save1=i;
+          //save2=j;
+  }
+
+}
+string s="";
+if(chk)
+{
+return A.substr(save1,mini);
+}
+return s;
+}
