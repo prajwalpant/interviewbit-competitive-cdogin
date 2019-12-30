@@ -1,0 +1,76 @@
+/*
+Find Rectangle in binary matrix
+Given a binary matrix of integers A of size N x M consisting of only 0 or 1. you need to check whether there exists a square or rectangle in a square whose all four corners are 1. All four corners need to be distinct. If there exists such rectangle or square return 1, else return 0. 
+Input Format
+The first argument given is the integer matrix A.
+Output Format
+ Return 1 if there exists such rectangle/square whose all four corners are 1 else return 0.
+Constraints
+1 <= N, M <= 200
+0 <= A[i] <= 1
+For Example
+Input 1:
+    A = [   [0, 1, 1]
+            [0, 1, 1]
+            [0, 1, 0]   ]
+Output 1:
+    1
+    Explanation 1:
+    [ [1, 1]
+      [1, 1] ]
+      There exists a square whose all corners are 1.
+
+Input 2:
+    A = [   [0, 1, 1]
+            [0, 0, 1]
+            [0, 1, 0]   ]
+Output 2:
+    0
+*/
+//storing the places if 1 in hash table
+//as we know any square or rectangle in formed using two points
+//just find the answer using two loops and hash check
+int Solution::solve(const vector<vector<int> > &A) {
+map<pair<int,int>,int> indexhash;
+ vector<pair<int,int>> v;
+
+for(int i=0;i<A.size();i++){
+    for(int j=0;j<A[0].size();j++)
+    {
+       if(A[i][j]==1)
+       {
+           indexhash[make_pair(i,j)]=1;
+           v.push_back(make_pair(i,j));
+       }
+    }
+}
+vector<pair<int,int>> :: iterator itprev,itnext;
+itprev=v.begin();
+while(itprev!=v.end())
+{
+   itnext=itprev;
+   itnext++;
+   int row1=itprev->first;
+   int column1=itprev->second;
+    while(itnext!=v.end())
+    {
+        int row2=itnext->first;
+        int column2=itnext->second;
+       if(column1==column2||row1==row2){
+           int x=0;
+       } 
+       else
+       {
+           if(indexhash[make_pair(row2,column1)]==1&&indexhash[make_pair(row1,column2)]==1)
+         {
+             return 1;
+         }
+         
+        }
+       itnext++; 
+        }
+        itprev++;
+}
+return 0;
+}
+
