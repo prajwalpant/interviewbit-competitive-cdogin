@@ -1,0 +1,58 @@
+/*
+Closest Palindrome
+Groot has a profound love for palindrome which is why he keeps fooling around with strings. But not all strings are palindromes. Since Groot is lazy, he wants to know if it is possible to make any string a palindrome by changing exactly one of its characters. Constraints:
+1.   1 <= Length of S <= 100000
+2.   All the alphabets of S are lower case (a - z)
+Input: A string S. Output: Your function should return the string "YES" if it is possible to make the given string a palindrome by changing exactly 1 character. Else, it should return the string "NO". Example: Input:
+abbba
+Function return:
+YES
+*/
+
+//there are two types of palindrome even and odd
+//in odd case the count of difference can be 1or zero
+//but in case of even it must be 1 then only you can return 1
+string Solution::solve(string A) 
+{
+if(A.size()==0)
+{
+  return "NO";
+}
+int i=0;
+int j=A.size()-1;
+int count=0;
+while(i<j)
+{
+    if(A[i]!=A[j])
+    {
+       count++; 
+    }
+    i++;
+    j--;
+}
+if(A.size()%2==0)
+{
+if(count==1)
+{
+    return "YES";
+}
+else
+{
+    return "NO";
+}
+}
+else
+{
+if(count==0||count==1)
+{
+  return "YES";      
+}
+else
+{
+   return "NO"; 
+}
+}
+}
+
+
+
