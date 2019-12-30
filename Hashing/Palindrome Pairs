@@ -1,0 +1,103 @@
+/*
+Palindrome Pairs
+Given a list of unique words A, find all pairs of distinct indices (i,j) in the given list such that concatenation of the two words, i.e. A[i] + A[j] is a palindrome. Note: A string is a palindrome if it reads the same backward as forward.
+Input Format
+The only argument given is the integer array A.
+Output Format
+Return the list of all pairs of distinct indices such that concatenation of the two words, i.e. A[i] + A[j] is a palindrome. 
+You can return the list in any order.
+Constraints
+1 <= length of the list A <= 1000
+100 <= lenght of words in list A <= 100
+For Example
+Input 1:
+    A = ["abcd", "dcba", "lls", "s", "sssll"]
+Output 1:
+    [ [0,1], [1,0], [3,2], [2,4] ] 
+
+Input 2:
+    A = ["abc", "sa", "xy", "as" ]
+Output 2:
+    [ [1,3], [3,1] ]
+    
+*/
+bool isplaindrome(int i,int j,string &s)
+{
+ //   cout<<"0";
+  while(i<j)
+  {
+    if(s[i]!=s[j])
+     {
+         return false;
+     }
+     i++;
+     j--;
+ }
+ return true;
+}
+void checkforprefix(string &s,unordered_map<string,int>&mymap,vector<vector<int>> &ans)
+{
+ //   cout<<"3333";
+     string safe="";
+     string rev="";
+    for(int i=0;i<s.size();i++)
+    {
+    
+      safe+=s[i];
+      rev=safe;
+      reverse(rev.begin(),rev.end());
+      if(mymap.find(rev)!=mymap.end()&&mymap[rev]!=mymap[s]&&isplaindrome(i+1,s.size()-1,s))
+      {
+          
+        vector<int> temp;
+       temp.push_back(mymap[s]);
+       temp.push_back(mymap[rev]);
+   //  cout<<mymap[s]<<mymap[rev]<<" "; 
+       ans.push_back(temp);
+        }
+     }
+}
+//cout<<"next";
+void checkforsuffix(string &s,unordered_map<string,int>&mymap,vector<vector<int>> &ans)
+{
+  //  cout<<"4444";
+     string safe="";
+     string rev="";
+    
+    for(int i=s.size()-1;i>0;i--)
+    {
+      safe+=s[i];
+      rev=safe;
+     // reverse(rev.begin(),rev.end());
+      if(mymap.find(rev)!=mymap.end()&&mymap[rev]!=mymap[s]&&isplaindrome(0,i-1,s))
+      {
+       vector<int> temp;
+       temp.push_back(mymap[rev]);
+       temp.push_back(mymap[s]);
+     // cout<<mymap[rev]<<mymap[s]<<" ";
+       ans.push_back(temp);
+      } 
+     } 
+}
+vector<vector<int>> Solution::solve(vector<string> &A)
+{
+//cout<<"1111";
+vector<vector<int> > ans;
+unordered_map<string,int> mymap;
+for(int i=0;i<A.size();i++)
+{
+    mymap[A[i]]=i;
+}
+ //cout<<"2222";
+unordered_map<string,int> :: iterator it;
+it=mymap.begin();
+ //cout<<"XXXX";
+while(it!=mymap.end())
+{
+    string s=it->first;
+    checkforprefix(s,mymap,ans);
+    checkforsuffix(s,mymap,ans);
+    it++;
+}
+return ans;
+}
