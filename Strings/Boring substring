@@ -1,0 +1,62 @@
+/*
+Boring substring
+Given a string A of lowercase English alphabets. Rearrange the characters of the given string A such that there is no boring substring in A. A boring substring has the following properties:
+1. Its length is 2.
+2. Both the characters are consecutive, for example - "ab", "cd", "dc", "zy" etc.
+(If the first character is C then the next character can be either (C+1) or (C-1)).
+Return 1 if it possible to rearrange the letters of A such that there are no boring substring in A, else return 0. 
+Input Format
+The only argument given is string A.
+Output Format
+Return 1 if it is possible to rearrange the letters of A such that there are no boring substrings in A, else return 0.
+Constraints
+1 <= |A| <= 100
+For Example
+Input 1:
+    A = "abcd"
+Output 1:
+    1
+    Explanation 1:
+        String A can be rearranged into "cadb" or "bdac" 
+
+Input 2:
+    A = "aab"
+Output 2:
+    0
+    Explanation 2:
+        No arrangement of string A can make it free of boring substrings.
+
+*/
+
+//here what we have done is like all odd place chars and even place char in ascii code can never form ugly
+//pairs so we separated them as they never form ugly pairs so now 
+//we run a looop to both strings and check if you found a pair which is not ugly
+//then return 1 if all pairs are ugly return zero 
+
+int Solution::solve(string A)
+{
+if(A.length()<2)
+return 0;
+string s_o="";
+string s_e="";
+for(int i=0;i<A.length();i++)
+{
+ if(int(A[i])%2==0)
+ s_e+=A[i];
+ else 
+ s_o+=A[i];
+}
+if(s_e.length()==0||s_o.length()==0)
+return 0;
+
+for(int i=0;i<s_e.length();i++)
+{
+ for(int j=0;j<s_o.length();j++)
+ {
+   if(abs((int(s_e[i])-int(s_o[j]))>2))
+   return 1;
+ }
+}
+return 0;
+}
+
