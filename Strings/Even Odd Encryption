@@ -1,0 +1,112 @@
+/*
+Even Odd Encryption
+It is not safe to send the data from one place to the other directly because hackers are always ready to steal the data and misuse it. So in order to send the data encryption is performed. Given the data in the form of a string of lower case English alphabets and an encryption key B, perform encryption based on the following algorithm: For every character of the string if its frequency is even then increase the value the character B times else decrease the value of the character B times. Note: Increment and decrement are in cyclic fashion i.e. z is followed by a. For example, if the character is ‘a’ then increasing it by 1 will make it ‘b’, increasing by 2 will make it ‘c’, increasing it by 26 will make it ‘a’ again, decreasing it by 1 will make it ‘z’ and so on. 
+Input Format
+The first argument given is the String A.
+The second argument given is the Integer B.
+Output Format
+Return the encrypted string.
+Constraints
+1 <= length of input string <= 100000
+1 <= B <= 256
+For Example
+Input 1:
+    A = abccba
+    B = 2
+Output 1:
+    cdeedc
+
+Input 2:
+    A = wvmctuj
+    B = 28
+Output 2:
+    utkarsh
+*/
+string Solution::solve(string A, int B) 
+{
+if(A.size()==0)
+{
+    return A;
+}
+unordered_map<char,int> alpha;
+unordered_map<int,char> n;
+alpha['a']=0;
+alpha['b']=1;
+alpha['c']=2;
+alpha['d']=3;
+alpha['e']=4;
+alpha['f']=5;
+alpha['g']=6;
+alpha['h']=7;
+alpha['i']=8;
+alpha['j']=9;
+alpha['k']=10;
+alpha['l']=11;
+alpha['m']=12;
+alpha['n']=13;
+alpha['o']=14;
+alpha['p']=15;
+alpha['q']=16;
+alpha['r']=17;
+alpha['s']=18;
+alpha['t']=19;
+alpha['u']=20;
+alpha['v']=21;
+alpha['w']=22;
+alpha['x']=23;
+alpha['y']=24;
+alpha['z']=25;
+n[0]='a';
+n[1]='b';
+n[2]='c';
+n[3]='d';
+n[4]='e';
+n[5]='f';
+n[6]='g';
+n[7]='h';
+n[8]='i';
+n[9]='j';
+n[10]='k';
+n[11]='l';
+n[12]='m';
+n[13]='n';
+n[14]='o';
+n[15]='p';
+n[16]='q';
+n[17]='r';
+n[18]='s';
+n[19]='t';
+n[20]='u';
+n[21]='v';
+n[22]='w';
+n[23]='x';
+n[24]='y';
+n[25]='z';
+int save;
+unordered_map<char,int> mymap;
+for(int i=0;i<A.size();i++)
+{
+    mymap[A[i]]++;
+}
+for(int i=0;i<A.length();i++)
+{
+    if(mymap[A[i]]%2==0)
+    {
+        A[i]=n[(alpha[A[i]]+B)%26];
+    }
+    else
+    {
+   //  cout<<A[i]<<" ";
+       save=B%26;
+       if(alpha[A[i]]-save>=0)
+       {
+           A[i]=n[alpha[A[i]]-save];
+       }
+       else
+       {
+       A[i]=n[26-abs(alpha[A[i]]-save)];
+       }
+    }
+}
+return A;
+}
