@@ -1,0 +1,56 @@
+/*
+Clone a linked list
+Given a doubly linked list of integers with one pointer of each node pointing to the next node (just like in a single link list) while the second pointer, however, can point to any node in the list and not just the previous node. You have to create a copy of this list and return the head pointer of the duplicated list. 
+Input Format
+The only argument given is head pointer of the doubly linked list.
+Output Format
+Return the head pointer of the duplicated list. 
+Constraints
+1 <= length of the list <= 100000
+1 <= Value of node <= 10^5
+For Example
+Input 1:
+     1 -> 2 -> 3 -> 4 -> 5
+     random pointer of each node 
+     1 -> 5 2 -> 4 3 -> 3 4 -> 2 5 -> 1
+
+
+Output 1:
+    1 -> 2 -> 3 -> 4 -> 5
+    random pointer of each node 
+    1 -> 5 2 -> 4 3 -> 3 4 -> 2 5 -> 1
+*/
+
+/*
+struct ListNode { 
+    int val; 
+    ListNode *next,*random; 
+    ListNode(int x) { 
+        val = x; 
+        next = random = NULL; 
+    } 
+}; 
+*/
+//just make a list having a hash of original and new list node only nodes dont use and next or random for this
+//now again iterate and then find the relation of next and rand from the hash you hav ecreated
+ListNode* clonelist(ListNode *A)
+{
+unordered_map<ListNode*,ListNode*> mymap;
+ListNode* original=A;
+while(original!=NULL)
+{
+    ListNode* newnode=new ListNode(original->val);
+    mymap[original]=newnode;
+    original=original->next;
+}
+original=A;
+ListNode* curr=NULL;
+while(original!=NULL)
+{
+  curr=mymap[original];
+  curr->next=mymap[original->next];
+  curr->random=mymap[original->random];
+  original=original->next;  
+}
+return mymap[A];
+}
