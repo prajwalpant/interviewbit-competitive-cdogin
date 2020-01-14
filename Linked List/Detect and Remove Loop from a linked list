@@ -1,0 +1,48 @@
+/*
+Detect and Remove Loop from a linked list
+Given a linked list which contains some loop. You need to find the node, which creates a loop, and break it by making the node point to NULL. INPUT
+3 -> 2 -> 4 -> 5 -> 6
+          ^         |
+          |         |    
+          - - - - - -
+OUTPUT
+3 -> 2 -> 4 -> 5 -> 6 -> NULL
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::solve(ListNode* A) 
+{
+    ListNode* slow=A;
+    ListNode* fast=A;
+    ListNode* trav=A;
+    while(slow!=NULL&&fast!=NULL&& fast->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow->next==A&&fast->next->next==A)
+        {
+            slow->next=NULL;
+          //  cout<<"xd"<<" ";
+            return A;
+        }
+        if(slow==fast)
+        {
+            break;
+        }
+     }
+  while(trav->next!=slow->next)
+  {
+      slow=slow->next;
+      trav=trav->next;
+  }
+  slow->next=NULL;
+ // cout<<A->next->val<<" ";
+  return A;
+
+}
