@@ -1,0 +1,95 @@
+/*
+Add Two Numbers as Lists
+You are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list. Input: (2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 0 -> 8
+    342 + 465 = 807
+Make sure there are no trailing zeros in the output list So, 7 -> 0 -> 8 -> 0 is not a valid response even though the value is still 807.
+*/
+//Definition for singly-linked list.
+/*  struct ListNode {
+      int val;
+      ListNode *next;
+      ListNode(int x) : val(x), next(NULL) {}
+ };
+ */
+ListNode* Solution::addTwoNumbers(ListNode* first, ListNode* second) 
+{
+   ListNode *head=first;
+   int carry=0;
+   while(first!=NULL && second!=NULL)
+   {
+       if(first->val+second->val+carry>9)
+       {
+           first->val=(first->val+second->val+carry)%10;
+           carry=1;
+       }
+       else
+       {
+           first->val=first->val+second->val+carry;
+           carry=0;
+       }
+       if(first->next==NULL)
+       {
+           second=second->next;
+           break;
+       }
+        first=first->next;
+        second=second->next;
+  }
+    if(first!=NULL &&second==NULL)
+   {
+    ListNode* temp=first;
+       while(first!=NULL)
+       {
+          if(first->val+carry>9)
+          {
+              first->val=(first->val+carry)%10;
+              carry=1;
+          }
+          else{
+              first->val=first->val+carry;
+              carry=0;
+          }
+          temp=first;
+          first=first->next;
+         }
+          if(carry==1)
+         {
+             ListNode* newnode=new ListNode(1);
+             first->next=newnode;
+         }
+   }
+ else  if(first->next==NULL &&second==NULL)
+  {
+      if(carry==1)
+      {
+          ListNode* newnode=new ListNode(1);
+          first->next=newnode;
+      }
+  }
+  else
+   {
+       first->next=second;
+     while(second!=NULL)
+     {
+         if(second->val+carry>9)
+         {
+             second->val=(second->val+carry)%10;
+         }
+         else
+         {
+             second->val=second->val+carry;
+             carry=0;
+         }
+         first=second;
+         second=second->next;
+         }
+      if(carry==1)
+      {
+        ListNode* newnode=new ListNode(1);
+       first->next=newnode;
+      }
+   }
+
+   return head;
+ 
+}
