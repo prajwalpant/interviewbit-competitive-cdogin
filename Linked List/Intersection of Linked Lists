@@ -1,0 +1,76 @@
+/*
+Intersection of Linked Lists
+Write a program to find the node at which the intersection of two singly linked lists begins. For example, the following two linked lists:
+A:          a1 → a2
+                   ↘
+                     c1 → c2 → c3
+                   ↗
+B:     b1 → b2 → b3
+begin to intersect at node c1.
+ Notes:
+If the two linked lists have no intersection at all, return null.
+The linked lists must retain their original structure after the function returns.
+You may assume there are no cycles anywhere in the entire linked structure.
+Your code should preferably run in O(n) time and use only O(1) memory.
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
+if(A==NULL||B==NULL)
+{
+    return NULL;
+}
+int alength=0;
+int blength=0;
+ListNode* firsthead=A;
+ListNode* travfirst=A;
+ListNode* secondhead=B;
+ListNode* travsecond=B;
+while(travfirst!=NULL)
+{
+    travfirst=travfirst->next;
+    alength++;
+}
+while(travsecond!=NULL)
+{
+    travsecond=travsecond->next;
+    blength++;
+}
+
+if(alength>=blength)
+{
+    int save=alength-blength;
+    while(save--)
+    {
+        firsthead=firsthead->next;
+    }
+    while(firsthead!=secondhead)
+    {
+        firsthead=firsthead->next;
+        secondhead=secondhead->next;
+    }
+    return firsthead;
+}
+else
+{
+     int save=blength-alength;
+    while(save--)
+    {
+        secondhead=secondhead->next;
+    }
+    while(firsthead!=secondhead)
+    {
+        firsthead=firsthead->next;
+        secondhead=secondhead->next;
+    }
+    return firsthead;
+    
+}
+}
