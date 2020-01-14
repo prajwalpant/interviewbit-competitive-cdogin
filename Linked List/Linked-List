@@ -1,0 +1,132 @@
+/*
+Design and implement a Linked List data structure. A node in a linked list should have the following attributes - an integer value and a pointer to the next node. It should support the following operations:
+insert_node(position, value) - To insert the input value at the given position in the linked list.
+delete_node(position) - Delete the value at the given position from the linked list.
+print_ll() - Print the entire linked list, such that each element is followed by a single space.
+
+Note: 1 <= position <= n where, n is the size of the linked-list.
+If an input position does not satisfy the constraint, no action is required.
+
+ Sample Input: 3
+i 1 23
+i 2 24
+p
+d 1
+p
+
+ Sample Output: 23 24
+24
+
+*/
+#include<iostream>
+using namespace std;
+struct node
+{
+   int data;
+   struct node* next;
+};
+struct node* head=NULL;
+int size=0;
+void insert_node(int position, int value) 
+{
+    struct node *trav=head;
+    struct node *temp=head;
+    if(position<=size+1)
+    {
+       if(position==1)
+       {
+          node* newnode=new node;
+          newnode->data=value;
+          newnode->next=temp;
+          head=newnode;
+          temp=head;
+          trav=head;
+       }
+       else if(position==size+1)
+       {
+         while(trav->next!=NULL)
+         {
+             trav=trav->next;
+         }
+         node * newnode=new node;
+         newnode->data=value;
+         newnode->next=NULL;
+         trav->next=newnode;
+         trav=head;
+         temp=head;
+        
+         }
+         else
+         {
+            int count=1;
+            while(count<position-1)
+            {
+                temp=temp->next;
+                count++;
+            }
+            node* newnode=new node;
+            newnode->data=value;
+            newnode->next=temp->next;
+            temp->next=newnode;
+           
+       }
+       size++;
+}
+}
+
+void delete_node(int position) 
+{
+   struct node* temp=head;
+   struct node* trav=head;
+    if(position<=size)
+    {
+        if(position==1)
+        {
+        head=head->next;
+        temp->next=NULL;
+        free(temp);
+        temp=head;
+      
+        }
+       else if(position==size)
+        {
+            int count=1;
+            while(count<position-1)
+            {
+            count++;
+            temp=temp->next;
+            }
+            node *save=temp->next;
+            temp->next=NULL;
+        free(save);
+        
+        }
+        else 
+        {
+            int count=1;
+            while(count<position-1)
+            {
+                count++;
+                temp=temp->next;
+             }
+            node* save=temp->next;
+           temp->next=save->next;
+           save->next=NULL;
+           free(save);
+          
+  }
+   size--;
+    }
+}
+void print_ll() 
+{
+  struct node* trav;
+  trav=head;
+  if(trav!=NULL){
+  while(trav!=NULL)
+  {
+      cout<<trav->data<<" ";
+      trav=trav->next;
+  }
+  }
+}
