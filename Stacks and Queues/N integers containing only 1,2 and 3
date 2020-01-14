@@ -1,0 +1,47 @@
+/*
+Given an integer A. Find and Return first positive A integers in ascending order containing only digits 1,2 and 3. NOTE: all the A integers will fit in 32 bit integer. 
+Input Format
+The only argument given is integer A.
+Output Format
+Find and Return first positive A integers in ascending order containing only digits 1,2 and 3.
+Constraints
+1 <= A <= 29500
+For Example
+Input 1:
+    A = 3
+Output 1:
+    [1, 2, 3]
+
+Input 2:
+    A = 7
+Output 2:
+    [1, 2, 3, 11, 12, 13, 21]
+*/
+//using bfs to 
+//put all 1,2,3 initially in queue and then initiate the bfs
+vector<int> Solution::solve(int A)
+{
+vector<int> ans;
+queue<int> bfs;
+int arr[3]={1,2,3};
+bfs.push(1);
+bfs.push(2);
+bfs.push(3);
+int count=0;
+while(bfs.empty()==false)
+{
+  int temp=bfs.front();
+  bfs.pop();
+  if(count==A)
+  return ans;
+  
+  ans.push_back(temp);
+  count++;
+  
+  for(int i=0;i<3;i++)
+  {
+    bfs.push(temp*10+arr[i]);
+  }
+}
+ 
+}
