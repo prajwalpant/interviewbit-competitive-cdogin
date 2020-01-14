@@ -1,0 +1,58 @@
+/*
+Swap List Nodes in pairs
+Given a linked list, swap every two adjacent nodes and return its head. For example, Given 1->2->3->4,
+you should return the list as 2->1->4->3. Your algorithm should use only 
+constant space. You may not modify the values in the list, only nodes itself can be changed.
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/*
+Lets first look at the problem of swapping 2 nodes. Method 1: Just swap the values in the 2 nodes. In most cases, this won’t be a permissible solution.
+Method 2: Move around the pointers.
+*/
+ListNode* Solution::swapPairs(ListNode* A)
+{
+ if(A==NULL)
+{
+    return A;
+}
+ListNode* head=A;
+ListNode* first=A;
+ListNode* save2=NULL;
+ListNode* save=first->next;
+if(save!=NULL)
+{
+    head=save;
+}
+while(save!=NULL)
+{
+    save2=save->next;
+    save->next=first;
+    if(save2==NULL)
+    {
+        first->next=save2;
+        break;
+    }
+    else if(save2->next==NULL)
+    {
+        first->next=save2;
+        break;
+    }
+    else
+    {
+        first->next=save2->next;
+        first=save2;
+        save=first->next;
+        
+    }
+    
+}
+ return head;
+
+}
