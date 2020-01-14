@@ -1,0 +1,54 @@
+/*
+Given a linked list, return the node where the cycle begins. If there is no cycle, return null. Try solving it using constant additional space. Example :
+Input : 
+
+                  ______
+                 |     |
+                 \/    |
+        1 -> 2 -> 3 -> 4
+
+Return the node corresponding to node 3. 
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+// for detecting the cycle and the starting point of loop
+//for cycle use fast and slow pointer technique
+//and for the start of cycle just start one by one from the place where your slow and fast meets 
+//and take a new poiter which points to head and incrment one by one from that place
+//andt he will meet at same time
+ListNode* CheckLoop(ListNode *A,ListNode* slow,ListNode* fast)
+{
+    while(fast!=NULL && fast->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast)
+        {
+            return slow;
+        }
+    }
+    return NULL;
+}
+ListNode* Solution::detectCycle(ListNode* A) 
+{
+ListNode* slow=A;
+ListNode* fast=A;
+ListNode* headofloop=A;
+ListNode* save=CheckLoop(A,slow,fast);
+if(save!=NULL)
+{
+ while(save!=headofloop)
+ {
+     save=save->next;
+     headofloop=headofloop->next;
+ }
+     return headofloop;
+}
+return NULL;
+}
