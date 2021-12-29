@@ -1,0 +1,58 @@
+/*This question is simple if you understand how we are dividing the cities.
+Let’s say we start with (a_1, a_2, a_3,…, a_k) as visited cities. Let all cities be (1,2,…,n).
+Also, let’s denote cities between a_i and a_i+1 as X_i. Here, X_0 denotes cities before the first visited city. X_k denotes unvisited cities after a_k.
+Now there are total n-k unvisited cities. We can visit them in (n-k)! ways.
+We can not visit cities between a_i and a_i+1 in all possible ways for all i’s. 
+We have counted all permutations in (n-k)!. So, we need to divide it with X_i for all i’s.
+This will lead to the expression (n-k)!/(X_0! * X_1! * … *X_k!).
+There are more than one way of visiting cities between the two visited cities. 
+Precisely, there are 2^(X_i-1) ways to visit for all i. Thus we need to multiply with X_i’s.
+Here we need to remember that there is only one way to visit X_0 and X_k.
+The final formula becomes ((n-k)!/(X_0!X_2!…X_(k-1)!) )(2^(X_1 -1 + X_2 - 1 + X_3 - 1 + … + X_(k-1)-1))
+The same solution is present as the editorial for this question. You have to remember that ((X_0 + X_1)C(X_1))((X_0+X_1+X_3)C(X_3))….((n-k)C(X_k)) is same as ((n-k)!/(X_0!X_2!…*X_(k-1)!) ).
+*/
+// This Question is very important in terms of interview for FAANG.
+#define ll long long
+ll ma=1000000007;
+ll fact(ll k){
+    if(k==0)
+    return 1;
+    else return ((k*fact(k-1))%ma);
+    
+}
+ll power(ll p,ll t){
+    if(t==0)
+    return 1;
+    ll y=power(p,t/2);
+    y=(y*y)%ma;
+    if(t%2==1)
+    y=(y*p)%ma;
+    return y;
+    
+}
+
+
+int Solution::solve(int a, vector<int> &b) {
+int n=b.size();
+sort(b.begin(),b.end());
+ll y=a-n;
+if(y==0)
+return 0;
+ll ans=fact(y);
+ll q=fact(b[0]-1);
+for(int i=0;i<n-1;i++){
+    
+    ll u=b[i+1]-b[i]-1;
+    ans=(ans*power(2,u-1))%ma;
+    q=(q*fact(u))%ma;
+}
+q=(q*fact(a-b[n-1]))%ma;
+q=power(q,ma-2);
+
+ans=(ans*q)%ma;
+return ans;
+  
+
+    
+    
+}
